@@ -17,7 +17,7 @@ $ brew install Caskroom/cask/virtualbox Caskroom/cask/vagrant
 Password:
 ```
 
-Then using vagrant create a new virtual machine:
+Then using vagrant create a new virtual machine for Debian Jessie:
 
 ```
 $ vagrant box add debian/jessie64
@@ -36,52 +36,51 @@ Enter your choice: 2
 ==> box: Successfully added box 'debian/jessie64' (v8.3.0) for 'virtualbox'!
 ```
 
+And the puppet:
+
+```
+$ vagrant box add puppetlabs/debian-8.2-64-puppet
+==> box: Loading metadata for box 'puppetlabs/debian-8.2-64-puppet'
+    box: URL: https://atlas.hashicorp.com/puppetlabs/debian-8.2-64-puppet
+This box can work with multiple providers! The providers that it
+can work with are listed below. Please review the list and choose
+the provider you will be working with.
+
+1) virtualbox
+2) vmware_desktop
+3) vmware_fusion
+
+Enter your choice: 1
+==> box: Adding box 'puppetlabs/debian-8.2-64-puppet' (v1.0.0) for provider: virtualbox
+    box: Downloading: https://atlas.hashicorp.com/puppetlabs/boxes/debian-8.2-64-puppet/versions/1.0.0/providers/virtualbox.box
+==> box: Successfully added box 'puppetlabs/debian-8.2-64-puppet' (v1.0.0) for 'virtualbox'!
+```
+
+Now you should have these virtual machines installed:
+
+```
+$ vagrant box list
+debian/jessie64                 (virtualbox, 8.3.0)
+puppetlabs/debian-8.2-64-puppet (virtualbox, 1.0.0)
+```
+
 ## Using Vagrant
 
 Start the virtual box:
 
 ```
 $ vagrant up
-Bringing machine 'default' up with 'virtualbox' provider...
-==> default: Importing base box 'debian/jessie64'...
-==> default: Matching MAC address for NAT networking...
-==> default: Checking if box 'debian/jessie64' is up to date...
-==> default: Setting the name of the VM: devops-notes_default_nnnnnnnnnnnnn_nnnnn
-==> default: Clearing any previously set network interfaces...
-==> default: Preparing network interfaces based on configuration...
-    default: Adapter 1: nat
-==> default: Forwarding ports...
-    default: 80 (guest) => 3000 (host) (adapter 1)
-    default: 22 (guest) => 2222 (host) (adapter 1)
-==> default: Booting VM...
-==> default: Waiting for machine to boot. This may take a few minutes...
-    default: SSH address: 127.0.0.1:2222
-    default: SSH username: vagrant
-    default: SSH auth method: private key
-    default: 
-    default: Vagrant insecure key detected. Vagrant will automatically replace
-    default: this with a newly generated keypair for better security.
-    default: 
-    default: Inserting generated public key within guest...
-    default: Removing insecure key from the guest if it's present...
-    default: Key inserted! Disconnecting and reconnecting using new SSH key...
-==> default: Machine booted and ready!
-==> default: Checking for guest additions in VM...
-    default: No guest additions were detected on the base box for this VM! Guest
-    default: additions are required for forwarded ports, shared folders, host only
-    default: networking, and more. If SSH fails on this machine, please install
-    default: the guest additions and repackage the box to continue.
-    default: 
-    default: This is not an error message; everything may continue to work properly,
-    default: in which case you may ignore this message.
-==> default: Installing rsync to the VM...
-==> default: Rsyncing folder: /Users/nnn/devops-notes/ => /vagrant
+Bringing machine 'jessie64' up with 'virtualbox' provider...
+Bringing machine 'puppet' up with 'virtualbox' provider...
+==> jessie64: Importing base box 'debian/jessie64'...
+==> jessie64: Matching MAC address for NAT networking...
+==> jessie64: Checking if box 'debian/jessie64' is up to date...
 ```
 
 Login with vagrant ssh:
 
 ```
-$ vagrant ssh
+$ vagrant ssh jessie64
 
 The programs included with the Debian GNU/Linux system are free software;
 the exact distribution terms for each program are described in the
@@ -95,8 +94,8 @@ vagrant@debian-jessie:~$
 Login directly with ssh:
 
 ```
-$ vagrant ssh-config --host jessie64 >~/.ssh/config
-$ ssh jessie64
+$ vagrant ssh-config >~/.ssh/config 
+Jari-MacBook-Pro:devops-notes solarflare$ ssh puppet
 
 The programs included with the Debian GNU/Linux system are free software;
 the exact distribution terms for each program are described in the
@@ -104,14 +103,16 @@ individual files in /usr/share/doc/*/copyright.
 
 Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
 permitted by applicable law.
-Last login: Mon Feb  8 10:25:49 2016 from 10.0.2.2
+Last login: Mon Feb  8 04:04:04 2016 from 10.0.2.2
+vagrant@localhost:~$
 ```
 
 Stop the virtual box:
 
 ```
 $ vagrant halt
-==> default: Attempting graceful shutdown of VM...
+==> puppet: Attempting graceful shutdown of VM...
+==> jessie64: Attempting graceful shutdown of VM...
 ```
 
 ## The obligatory cat video
