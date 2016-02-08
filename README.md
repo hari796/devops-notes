@@ -22,28 +22,9 @@ Password:
 Then using vagrant create a new virtual machine for Debian Jessie:
 
 ```
-$ vagrant box add debian/jessie64
-==> box: Loading metadata for box 'debian/jessie64'
-    box: URL: https://atlas.hashicorp.com/debian/jessie64
-This box can work with multiple providers! The providers that it
-can work with are listed below. Please review the list and choose
-the provider you will be working with.
-
-1) lxc
-2) virtualbox
-
-Enter your choice: 2
-==> box: Adding box 'debian/jessie64' (v8.3.0) for provider: virtualbox
-    box: Downloading: https://atlas.hashicorp.com/debian/boxes/jessie64/versions/8.3.0/providers/virtualbox.box
-==> box: Successfully added box 'debian/jessie64' (v8.3.0) for 'virtualbox'!
-```
-
-And the puppet:
-
-```
-$ vagrant box add puppetlabs/debian-8.2-64-puppet
-==> box: Loading metadata for box 'puppetlabs/debian-8.2-64-puppet'
-    box: URL: https://atlas.hashicorp.com/puppetlabs/debian-8.2-64-puppet
+$ vagrant box add puppetlabs/debian-8.2-64-nocm
+==> box: Loading metadata for box 'puppetlabs/debian-8.2-64-nocm'
+    box: URL: https://atlas.hashicorp.com/puppetlabs/debian-8.2-64-nocm
 This box can work with multiple providers! The providers that it
 can work with are listed below. Please review the list and choose
 the provider you will be working with.
@@ -53,69 +34,121 @@ the provider you will be working with.
 3) vmware_fusion
 
 Enter your choice: 1
-==> box: Adding box 'puppetlabs/debian-8.2-64-puppet' (v1.0.0) for provider: virtualbox
-    box: Downloading: https://atlas.hashicorp.com/puppetlabs/boxes/debian-8.2-64-puppet/versions/1.0.0/providers/virtualbox.box
-==> box: Successfully added box 'puppetlabs/debian-8.2-64-puppet' (v1.0.0) for 'virtualbox'!
+==> box: Adding box 'puppetlabs/debian-8.2-64-nocm' (v1.0.0) for provider: virtualbox
+    box: Downloading: https://atlas.hashicorp.com/puppetlabs/boxes/debian-8.2-64-nocm/versions/1.0.0/providers/virtualbox.box
+==> box: Successfully added box 'puppetlabs/debian-8.2-64-nocm' (v1.0.0) for 'virtualbox'!
+```
+
+And the CentOS 7.2:
+
+```
+$ vagrant box add puppetlabs/centos-7.2-64-nocm
+==> box: Loading metadata for box 'puppetlabs/centos-7.2-64-nocm'
+    box: URL: https://atlas.hashicorp.com/puppetlabs/centos-7.2-64-nocm
+This box can work with multiple providers! The providers that it
+can work with are listed below. Please review the list and choose
+the provider you will be working with.
+
+1) virtualbox
+2) vmware_desktop
+3) vmware_fusion
+
+Enter your choice: 1
+==> box: Adding box 'puppetlabs/centos-7.2-64-nocm' (v1.0.0) for provider: virtualbox
+    box: Downloading: https://atlas.hashicorp.com/puppetlabs/boxes/centos-7.2-64-nocm/versions/1.0.0/providers/virtualbox.box
+==> box: Successfully added box 'puppetlabs/centos-7.2-64-nocm' (v1.0.0) for 'virtualbox'!
+```
+
+And Ubuntu 12.05 Precise Pangolin:
+
+```
+$ vagrant box add puppetlabs/ubuntu-12.04-64-nocm
+==> box: Loading metadata for box 'puppetlabs/ubuntu-12.04-64-nocm'
+    box: URL: https://atlas.hashicorp.com/puppetlabs/ubuntu-12.04-64-nocm
+This box can work with multiple providers! The providers that it
+can work with are listed below. Please review the list and choose
+the provider you will be working with.
+
+1) virtualbox
+2) vmware_desktop
+3) vmware_fusion
+
+Enter your choice: 1
+==> box: Adding box 'puppetlabs/ubuntu-12.04-64-nocm' (v1.0.2) for provider: virtualbox
+    box: Downloading: https://vagrantcloud.com/puppetlabs/boxes/ubuntu-12.04-64-nocm/versions/1.0.2/providers/virtualbox.box
+==> box: Successfully added box 'puppetlabs/ubuntu-12.04-64-nocm' (v1.0.2) for 'virtualbox'!
 ```
 
 Now you should have these virtual machines installed:
 
 ```
 $ vagrant box list
-debian/jessie64                 (virtualbox, 8.3.0)
-puppetlabs/debian-8.2-64-puppet (virtualbox, 1.0.0)
+puppetlabs/centos-7.2-64-nocm   (virtualbox, 1.0.0)
+puppetlabs/debian-8.2-64-nocm   (virtualbox, 1.0.0)
+puppetlabs/ubuntu-12.04-64-nocm (virtualbox, 1.0.2)
 ```
 
 ## Using Vagrant
 
-Start the virtual box:
+Start the virtual machines:
 
 ```
-$ vagrant up
-Bringing machine 'jessie64' up with 'virtualbox' provider...
-Bringing machine 'puppet' up with 'virtualbox' provider...
-==> jessie64: Importing base box 'debian/jessie64'...
-==> jessie64: Matching MAC address for NAT networking...
-==> jessie64: Checking if box 'debian/jessie64' is up to date...
+$ vagrant up --no-provision
+Bringing machine 'debian' up with 'virtualbox' provider...
+Bringing machine 'ubuntu' up with 'virtualbox' provider...
+Bringing machine 'centos' up with 'virtualbox' provider...
+==> debian: Importing base box 'puppetlabs/debian-8.2-64-puppet'...
+==> debian: Matching MAC address for NAT networking...
+==> debian: Checking if box 'puppetlabs/debian-8.2-64-puppet' is up to date...
+```
+
+Start the vm provisioning:
+
+```
+$ vagrant provision
+==> debian: Running provisioner: puppet...
+/opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/communicators/ssh/communicator.rb:271:in `initialize': No such file or directory @ rb_sysopen - /Users/solarflare/devops-notes/hiera.yaml (Errno::ENOENT)
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/communicators/ssh/communicator.rb:271:in `open'
 ```
 
 Login with vagrant ssh:
 
 ```
-$ vagrant ssh jessie64
+$ vagrant ssh ubuntu
+Welcome to Ubuntu 14.04.2 LTS (GNU/Linux 3.16.0-30-generic x86_64)
 
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
-
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-vagrant@debian-jessie:~$
+ * Documentation:  https://help.ubuntu.com/
+vagrant@localhost:~$
 ```
 
 Login directly with ssh:
 
 ```
 $ vagrant ssh-config >~/.ssh/config
-$ ssh puppet
-
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
-
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-Last login: Mon Feb  8 04:04:04 2016 from 10.0.2.2
-vagrant@localhost:~$
+$ ssh centos
+[vagrant@localhost ~]$ cat /etc/redhat-release 
+CentOS Linux release 7.2.1511 (Core) 
+[vagrant@localhost ~]$
 ```
 
 Stop the virtual machines:
 
 ```
 $ vagrant halt
-==> puppet: Attempting graceful shutdown of VM...
-==> jessie64: Attempting graceful shutdown of VM...
+==> ubuntu: Attempting graceful shutdown of VM...
+==> centos: Attempting graceful shutdown of VM...
+==> debian: Attempting graceful shutdown of VM...
 ```
+
+Destroying a virtual machine can be useful, in case you want to import the clean working base box again for some reason:
+
+```
+$ vagrant destroy debian
+    debian: Are you sure you want to destroy the 'debian' VM? [y/N] y
+==> debian: Destroying VM and associated drives...
+```
+
+The debian virtual machine will then be re-imported during the next “vagrant up” session.
 
 ## The obligatory cat video
 
