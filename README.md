@@ -17,6 +17,8 @@ $ brew install Caskroom/cask/virtualbox Caskroom/cask/vagrant
 Password:
 ```
 
+## Install the virtual machines
+
 Then using vagrant create a new virtual machine for Debian Jessie:
 
 ```
@@ -94,8 +96,8 @@ vagrant@debian-jessie:~$
 Login directly with ssh:
 
 ```
-$ vagrant ssh-config >~/.ssh/config 
-Jari-MacBook-Pro:devops-notes solarflare$ ssh puppet
+$ vagrant ssh-config >~/.ssh/config
+$ ssh puppet
 
 The programs included with the Debian GNU/Linux system are free software;
 the exact distribution terms for each program are described in the
@@ -107,7 +109,7 @@ Last login: Mon Feb  8 04:04:04 2016 from 10.0.2.2
 vagrant@localhost:~$
 ```
 
-Stop the virtual box:
+Stop the virtual machines:
 
 ```
 $ vagrant halt
