@@ -90,7 +90,59 @@ puppetlabs/ubuntu-12.04-64-nocm (virtualbox, 1.0.2)
 
 ## Using Vagrant
 
-Start the virtual machines:
+Try starting the virtual machine with provisioning:
+
+```
+$ vagrant up
+Bringing machine 'debian' up with 'virtualbox' provider...
+==> debian: Importing base box 'puppetlabs/debian-8.2-64-puppet'...
+==> debian: Matching MAC address for NAT networking...
+==> debian: Checking if box 'puppetlabs/debian-8.2-64-puppet' is up to date...
+==> debian: Setting the name of the VM: devops-notes_debian_nnn_nnn
+==> debian: Clearing any previously set network interfaces...
+==> debian: Preparing network interfaces based on configuration...
+    debian: Adapter 1: nat
+==> debian: Forwarding ports...
+    debian: 22 (guest) => 2222 (host) (adapter 1)
+==> debian: Booting VM...
+==> debian: Waiting for machine to boot. This may take a few minutes...
+    debian: SSH address: 127.0.0.1:2222
+    debian: SSH username: vagrant
+    debian: SSH auth method: private key
+    debian: Warning: Remote connection disconnect. Retrying...
+    debian: 
+    debian: Vagrant insecure key detected. Vagrant will automatically replace
+    debian: this with a newly generated keypair for better security.
+    debian: 
+    debian: Inserting generated public key within guest...
+    debian: Removing insecure key from the guest if it's present...
+    debian: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> debian: Machine booted and ready!
+==> debian: Checking for guest additions in VM...
+    debian: The guest additions on this VM do not match the installed version of
+    debian: VirtualBox! In most cases this is fine, but in rare cases it can
+    debian: prevent things such as shared folders from working properly. If you see
+    debian: shared folder errors, please make sure the guest additions within the
+    debian: virtual machine match the version of VirtualBox you have installed on
+    debian: your host and reload your VM.
+    debian: 
+    debian: Guest Additions Version: 4.3.22
+    debian: VirtualBox Version: 5.0
+==> debian: Mounting shared folders...
+    debian: /vagrant => /Users/nnn/devops-notes
+    debian: /tmp/vagrant-puppet/manifests-nnn => /Users/nnn/devops-notes/manifests
+==> debian: Running provisioner: fix-no-tty (shell)...
+    debian: Running: inline script
+==> debian: Running provisioner: puppet...
+==> debian: Running Puppet with default.pp...
+==> debian: Error: Could not parse application options: invalid option: --manifestdir
+The SSH command responded with a non-zero exit status. Vagrant
+assumes that this means the command failed. The output for this command
+should be in the log above. Please read the output to determine what
+went wrong.
+```
+
+Start the virtual machines without puppet:
 
 ```
 $ vagrant up --no-provision

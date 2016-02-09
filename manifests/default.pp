@@ -1,5 +1,13 @@
 # /etc/puppetlabs/code/environments/production/manifests/default.pp
-debian {
-  include common
-  include apache
+
+node 'debian' {
+  include lamp
+}
+
+node 'ubuntu' {
+  include lamp
+}
+
+node 'centos' {
+  include lamp
 }
