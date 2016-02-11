@@ -88,6 +88,14 @@ puppetlabs/debian-8.2-64-nocm   (virtualbox, 1.0.0)
 puppetlabs/ubuntu-12.04-64-nocm (virtualbox, 1.0.2)
 ```
 
+Install Vbguest plugin:
+
+```
+$ vagrant plugin install vagrant-vbguest
+Installing the 'vagrant-vbguest' plugin. This can take a few minutes...
+Installed the plugin 'vagrant-vbguest (0.11.0)'!
+```
+
 ## Using Vagrant
 
 Try starting the virtual machine with provisioning:
@@ -118,19 +126,80 @@ Bringing machine 'debian' up with 'virtualbox' provider...
     debian: Removing insecure key from the guest if it's present...
     debian: Key inserted! Disconnecting and reconnecting using new SSH key...
 ==> debian: Machine booted and ready!
+GuestAdditions versions on your host (5.0.14) and guest (4.3.22) do not match.
+stdin: is not a tty
+Reading package lists...
+Building dependency tree...
+Reading state information...
+linux-headers-3.16.0-4-amd64 is already the newest version.
+Recommended packages:
+  linux-image
+The following NEW packages will be installed:
+  dkms linux-headers-amd64
+0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.
+Need to get 76.0 kB of archives.
+After this operation, 352 kB of additional disk space will be used.
+Get:1 http://http.us.debian.org/debian/ jessie/main dkms all 2.2.0.3-2 [70.9 kB]
+Get:2 http://http.us.debian.org/debian/ jessie/main linux-headers-amd64 amd64 3.16+63 [5,050 B]
+dpkg-preconfigure: unable to re-open stdin: No such file or directory
+Fetched 76.0 kB in 1s (73.1 kB/s)
+Selecting previously unselected package dkms.
+(Reading database ... 51623 files and directories currently installed.)
+Preparing to unpack .../dkms_2.2.0.3-2_all.deb ...
+Unpacking dkms (2.2.0.3-2) ...
+Selecting previously unselected package linux-headers-amd64.
+Preparing to unpack .../linux-headers-amd64_3.16+63_amd64.deb ...
+Unpacking linux-headers-amd64 (3.16+63) ...
+Processing triggers for man-db (2.7.0.2-5) ...
+Setting up dkms (2.2.0.3-2) ...
+Setting up linux-headers-amd64 (3.16+63) ...
+Copy iso file /Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso into the box /tmp/VBoxGuestAdditions.iso
+stdin: is not a tty
+mount: /dev/loop0 is write-protected, mounting read-only
+Installing Virtualbox Guest Additions 5.0.14 - guest version is 4.3.22
+stdin: is not a tty
+Verifying archive integrity... All good.
+Uncompressing VirtualBox 5.0.14 Guest Additions for Linux............
+VirtualBox Guest Additions installer
+Removing installed version 4.3.22 of VirtualBox Guest Additions...
+Copying additional installer modules ...
+Installing additional modules ...
+Removing existing VirtualBox DKMS kernel modules ...done.
+Removing existing VirtualBox non-DKMS kernel modules ...done.
+Building the VirtualBox Guest Additions kernel modules ...done.
+Doing non-kernel setup of the Guest Additions ...done.
+You should restart your guest to make sure the new modules are actually used
+
+Installing the Window System drivers
+Could not find the X.Org or XFree86 Window System, skipping.
+An error occurred during installation of VirtualBox Guest Additions 5.0.14. Some functionality may not work as intended.
+In most cases it is OK that the "Window System drivers" installation failed.
+stdin: is not a tty
+Got different reports about installed GuestAdditions version:
+Virtualbox on your host claims:   4.3.22
+VBoxService inside the vm claims: 5.0.14
+Going on, assuming VBoxService is correct...
+Got different reports about installed GuestAdditions version:
+Virtualbox on your host claims:   4.3.22
+VBoxService inside the vm claims: 5.0.14
+Going on, assuming VBoxService is correct...
+Got different reports about installed GuestAdditions version:
+Virtualbox on your host claims:   4.3.22
+VBoxService inside the vm claims: 5.0.14
+Going on, assuming VBoxService is correct...
+Restarting VM to apply changes...
+==> debian: Attempting graceful shutdown of VM...
+==> debian: Booting VM...
+==> debian: Waiting for machine to boot. This may take a few minutes...
+    debian: SSH address: 127.0.0.1:2222
+    debian: SSH username: vagrant
+    debian: SSH auth method: private key
+==> debian: Machine booted and ready!
 ==> debian: Checking for guest additions in VM...
-    debian: The guest additions on this VM do not match the installed version of
-    debian: VirtualBox! In most cases this is fine, but in rare cases it can
-    debian: prevent things such as shared folders from working properly. If you see
-    debian: shared folder errors, please make sure the guest additions within the
-    debian: virtual machine match the version of VirtualBox you have installed on
-    debian: your host and reload your VM.
-    debian: 
-    debian: Guest Additions Version: 4.3.22
-    debian: VirtualBox Version: 5.0
 ==> debian: Mounting shared folders...
     debian: /vagrant => /Users/nnn/devops-notes
-    debian: /tmp/vagrant-puppet/manifests-nnn => /Users/nnn/devops-notes/manifests
+    debian: /tmp/vagrant-puppet/modules-nnn => /Users/solarflare/devops-notes/modules
+    debian: /tmp/vagrant-puppet/manifests-nnn => /Users/solarflare/devops-notes/manifests
 ==> debian: Running provisioner: fix-no-tty (shell)...
     debian: Running: inline script
 ==> debian: Running provisioner: puppet...
