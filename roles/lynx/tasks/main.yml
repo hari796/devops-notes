@@ -2,4 +2,4 @@
 # file: roles/lynx/tasks/main.yml
 
 - name: make sure the latest lynx is installed
-  apt: name=lynx state=latest update_cache=yes
+  apt: name=lynx state=latest update_cache=yes cache_valid_time=480

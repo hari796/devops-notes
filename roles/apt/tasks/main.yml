@@ -1,0 +1,7 @@
+---
+# file: roles/apt/tasks/main.yml
+- name: update the apt cache if it's more than eight minutes old
+  apt: update_cache=yes cache_valid_time=480
+
+- name: upgrade all the packages to the latest
+  apt: upgrade=dist

@@ -61,6 +61,12 @@ PLAY ***************************************************************************
 TASK [setup] *******************************************************************
 ok: [jessie64]
 
+TASK [apt : update the apt cache if it's more than eight minutes old] **********
+ok: [jessie64]
+
+TASK [apt : upgrade all the packages to the latest] ****************************
+changed: [jessie64]
+
 TASK [lynx : make sure the latest lynx is installed] ***************************
 changed: [jessie64]
 
@@ -71,7 +77,7 @@ TASK [apache2 : be sure apache2 is running and enabled] ************************
 ok: [jessie64]
 
 PLAY RECAP *********************************************************************
-jessie64                   : ok=4    changed=2    unreachable=0    failed=0
+jessie64                   : ok=6    changed=3    unreachable=0    failed=0
 ```
 
 ## Install virtualbox and vagrant
