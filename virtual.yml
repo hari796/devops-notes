@@ -1,8 +1,11 @@
 ---
 # file: virtual.yml
 - hosts: webservers
+  vars_files:
+    - vars/main.yml
   become: yes
   roles:
     - apt
     - lynx
     - apache2
+    - tomcat7

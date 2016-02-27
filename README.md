@@ -76,8 +76,17 @@ changed: [jessie64]
 TASK [apache2 : be sure apache2 is running and enabled] ************************
 ok: [jessie64]
 
+TASK [tomcat7 : Define java_packages.] *****************************************
+ok: [jessie64]
+
+TASK [tomcat7 : Make sure java is installed.] **********************************
+changed: [jessie64] => (item=[u'openjdk-7-jdk'])
+
+TASK [tomcat7 : Make sure tomcat7 is installed.] *******************************
+changed: [jessie64]
+
 PLAY RECAP *********************************************************************
-jessie64                   : ok=6    changed=3    unreachable=0    failed=0
+jessie64                   : ok=9    changed=5    unreachable=0    failed=0
 ```
 
 ## Install virtualbox and vagrant

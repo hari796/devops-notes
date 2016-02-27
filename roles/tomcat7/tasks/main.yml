@@ -1,0 +1,17 @@
+---
+# file: roles/tomcat7/tasks/main.yml
+
+- name: Define java_packages.
+  set_fact:
+    java_packages: "{{ __java_packages | list }}"
+  when: java_packages is not defined
+
+- name: Make sure java is installed.
+  apt: "name={{ item }} state=installed"
+  with_items: '{{java_packages}}'
+
+- name: Make sure tomcat7 is installed.
+  apt:
+    name: tomcat7
+    state: installed
+  when: ansible_os_family == 'Debian'

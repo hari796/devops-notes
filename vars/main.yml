@@ -1,0 +1,4 @@
+__java_packages:
+  - openjdk-7-jdk
+tomcat6_hostname: jessie64
+tomcat6_catalina_port: 8080
