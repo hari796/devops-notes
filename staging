@@ -1,0 +1,8 @@
+# file: staging
+
+[vagrant]
+jessie64
+puppet
+
+[webservers]
+jessie64

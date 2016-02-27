@@ -1,0 +1,9 @@
+---
+# file: roles/apache2/tasks/main.yml
+
+- name: install apache2
+  apt: name=apache2 state=latest
+
+- name: be sure apache2 is running and enabled
+  service: name=apache2 state=running enabled=yes
+  tags: apache2

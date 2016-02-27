@@ -2,6 +2,78 @@
 
 Personal Mac OS X devops notes written in an executable script like fashion.
 
+## Install Ansible
+
+Install Ansible via pip:
+
+```
+$ sudo easy_install pip
+Password:
+Searching for pip
+Best match: pip 7.1.2
+Adding pip 7.1.2 to easy-install.pth file
+Installing pip script to /usr/local/bin
+Installing pip2.7 script to /usr/local/bin
+Installing pip2 script to /usr/local/bin
+
+Using /usr/local/lib/python2.7/site-packages
+Processing dependencies for pip
+Finished processing dependencies for pip
+$ sudo pip install ansible
+The directory '/Users/nnn/Library/Caches/pip/http' or its parent directory is not owned by the current user and the cache has been disabled. Please check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+The directory '/Users/nnn/Library/Caches/pip' or its parent directory is not owned by the current user and caching wheels has been disabled. check the permissions and owner of that directory. If executing pip with sudo, you may want sudo's -H flag.
+Collecting ansible
+  Downloading ansible-2.0.1.0.tar.gz (1.5MB)
+    100% |████████████████████████████████| 1.5MB 340kB/s 
+Collecting paramiko (from ansible)
+  Downloading paramiko-1.16.0-py2.py3-none-any.whl (169kB)
+    100% |████████████████████████████████| 172kB 2.9MB/s 
+Collecting jinja2 (from ansible)
+  Downloading Jinja2-2.8-py2.py3-none-any.whl (263kB)
+    100% |████████████████████████████████| 266kB 299kB/s 
+Collecting PyYAML (from ansible)
+  Downloading PyYAML-3.11.tar.gz (248kB)
+    100% |████████████████████████████████| 249kB 716kB/s 
+Requirement already satisfied (use --upgrade to upgrade): setuptools in /usr/local/lib/python2.7/site-packages (from ansible)
+Requirement already satisfied (use --upgrade to upgrade): pycrypto>=2.6 in /usr/local/lib/python2.7/site-packages (from ansible)
+Collecting ecdsa>=0.11 (from paramiko->ansible)
+  Downloading ecdsa-0.13-py2.py3-none-any.whl (86kB)
+    100% |████████████████████████████████| 90kB 1.8MB/s 
+Collecting MarkupSafe (from jinja2->ansible)
+  Downloading MarkupSafe-0.23.tar.gz
+Installing collected packages: ecdsa, paramiko, MarkupSafe, jinja2, PyYAML, ansible
+  Running setup.py install for MarkupSafe
+  Running setup.py install for PyYAML
+  Running setup.py install for ansible
+Successfully installed MarkupSafe-0.23 PyYAML-3.11 ansible-2.0.1.0 ecdsa-0.13 jinja2-2.8 paramiko-1.16.0
+You are using pip version 7.1.2, however version 8.0.3 is available.
+You should consider upgrading via the 'pip install --upgrade pip' command.
+```
+## Running an Ansible playbook
+
+Install lynx and apache2 using Ansible:
+
+```
+$ ansible-playbook -i staging site.yml
+
+PLAY ***************************************************************************
+
+TASK [setup] *******************************************************************
+ok: [jessie64]
+
+TASK [lynx : make sure the latest lynx is installed] ***************************
+changed: [jessie64]
+
+TASK [apache2 : install apache2] ***********************************************
+changed: [jessie64]
+
+TASK [apache2 : be sure apache2 is running and enabled] ************************
+ok: [jessie64]
+
+PLAY RECAP *********************************************************************
+jessie64                   : ok=4    changed=2    unreachable=0    failed=0
+```
+
 ## Install virtualbox and vagrant
 
 Using homebrew, install virtualbox and vagrant.

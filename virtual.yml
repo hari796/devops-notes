@@ -1,0 +1,7 @@
+---
+# file: virtual.yml
+- hosts: webservers
+  become: yes
+  roles:
+    - lynx
+    - apache2
