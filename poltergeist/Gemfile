@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+
+group :test do
+  gem "capybara"
+  gem "cucumber"
+  gem "rspec", :require => "spec"
+  gem "poltergeist"
+  gem "selenium-webdriver"
+  gem "launchy", "~> 2.1.2"
+end
