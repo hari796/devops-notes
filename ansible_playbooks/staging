@@ -1,8 +1,7 @@
 # file: staging
 
-[vagrant]
-jessie64
-puppet
+[ubuntu]
+xenial64	ansible_user=ubuntu
 
-[webservers]
+[debian]
 jessie64

@@ -1,6 +1,6 @@
 ---
 # file: virtual.yml
-- hosts: webservers
+- hosts: debian
   vars_files:
     - vars/main.yml
   become: yes

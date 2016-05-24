@@ -51,7 +51,7 @@ You should consider upgrading via the 'pip install --upgrade pip' command.
 ```
 ## Running an Ansible playbook
 
-Install lynx and apache2 using Ansible:
+Install lynx, apache2 and tomcat7 to Debian and ruby-2.3.1 to Ubuntu using Ansible:
 
 ```
 $ ansible-playbook -i staging site.yml
@@ -85,8 +85,110 @@ changed: [jessie64] => (item=[u'openjdk-7-jdk'])
 TASK [tomcat7 : Make sure tomcat7 is installed.] *******************************
 changed: [jessie64]
 
+PLAY [python2] *****************************************************************
+
+TASK [raw] *********************************************************************
+ok: [xenial64]
+
+PLAY [rvm] *********************************************************************
+
+TASK [setup] *******************************************************************
+ok: [xenial64]
+
+TASK [rvm_io.rvm1-ruby : include] **********************************************
+[DEPRECATION WARNING]: Instead of sudo/sudo_user, use become/become_user and 
+make sure become_method is 'sudo' (default). This feature will be removed in a 
+future release. Deprecation warnings can be disabled by setting 
+deprecation_warnings=False in ansible.cfg.
+included: /private/etc/ansible/roles/rvm_io.rvm1-ruby/tasks/rvm.yml for xenial64
+
+TASK [rvm_io.rvm1-ruby : Detect rvm binary] ************************************
+ok: [xenial64]
+
+TASK [rvm_io.rvm1-ruby : Detect rvm installer] *********************************
+ok: [xenial64]
+
+TASK [rvm_io.rvm1-ruby : Detect current rvm version] ***************************
+skipping: [xenial64]
+
+TASK [rvm_io.rvm1-ruby : Install rvm installer] ********************************
+changed: [xenial64]
+
+TASK [rvm_io.rvm1-ruby : Configure rvm installer] ******************************
+changed: [xenial64]
+
+TASK [rvm_io.rvm1-ruby : Import GPG keys] **************************************
+ok: [xenial64]
+
+TASK [rvm_io.rvm1-ruby : Install rvm] ******************************************
+changed: [xenial64]
+
+TASK [rvm_io.rvm1-ruby : Update rvm] *******************************************
+skipping: [xenial64]
+
+TASK [rvm_io.rvm1-ruby : Configure rvm] ****************************************
+changed: [xenial64]
+
+TASK [rvm_io.rvm1-ruby : include] **********************************************
+included: /private/etc/ansible/roles/rvm_io.rvm1-ruby/tasks/rubies.yml for xenial64
+
+TASK [rvm_io.rvm1-ruby : Detect if rubies are installed] ***********************
+[DEPRECATION WARNING]: Using bare variables is deprecated. Update your playbooks
+ so that the environment value uses the full variable syntax 
+('{{rvm1_rubies}}'). This feature will be removed in a future release. 
+Deprecation warnings can be disabled by setting deprecation_warnings=False in 
+ansible.cfg.
+ok: [xenial64] => (item=ruby-2.3.1)
+
+TASK [rvm_io.rvm1-ruby : Install rubies] ***************************************
+[DEPRECATION WARNING]: Using bare variables is deprecated. Update your playbooks
+ so that the environment value uses the full variable syntax 
+('{{detect_rubies.results}}'). This feature will be removed in a future release.
+ Deprecation warnings can be disabled by setting deprecation_warnings=False in 
+ansible.cfg.
+changed: [xenial64] => (item={u'changed': False, u'stdout': u'', '_ansible_no_log': False, 'stdout_lines': [], u'warnings': [], 'item': u'ruby-2.3.1', u'cmd': [u'/usr/local/rvm/bin/rvm', u'ruby-2.3.1', u'do', u'true'], 'failed': False, u'delta': u'0:00:00.334396', u'stderr': u'Ruby ruby-2.3.1 is not installed.', u'rc': 2, 'invocation': {'module_name': u'command', u'module_args': {u'creates': None, u'executable': None, u'chdir': None, u'_raw_params': u'/usr/local/rvm/bin/rvm ruby-2.3.1 do true', u'removes': None, u'warn': True, u'_uses_shell': False}}, u'end': u'2016-05-24 13:07:43.388053', 'failed_when_result': False, u'start': u'2016-05-24 13:07:43.053657'})
+
+TASK [rvm_io.rvm1-ruby : Detect default ruby version] **************************
+ok: [xenial64]
+
+TASK [rvm_io.rvm1-ruby : Select default ruby] **********************************
+changed: [xenial64]
+
+TASK [rvm_io.rvm1-ruby : Install bundler if not installed] *********************
+[DEPRECATION WARNING]: Using bare variables is deprecated. Update your playbooks
+ so that the environment value uses the full variable syntax 
+('{{rvm1_rubies}}'). This feature will be removed in a future release. 
+Deprecation warnings can be disabled by setting deprecation_warnings=False in 
+ansible.cfg.
+changed: [xenial64] => (item=ruby-2.3.1)
+
+TASK [rvm_io.rvm1-ruby : Symlink ruby related binaries on the system path] *****
+[DEPRECATION WARNING]: Using bare variables is deprecated. Update your playbooks
+ so that the environment value uses the full variable syntax 
+('{{rvm1_symlink_binaries}}'). This feature will be removed in a future release.
+ Deprecation warnings can be disabled by setting deprecation_warnings=False in 
+ansible.cfg.
+changed: [xenial64] => (item=bundle)
+changed: [xenial64] => (item=bundler)
+changed: [xenial64] => (item=erb)
+changed: [xenial64] => (item=executable-hooks-uninstaller)
+changed: [xenial64] => (item=gem)
+changed: [xenial64] => (item=irb)
+changed: [xenial64] => (item=rake)
+changed: [xenial64] => (item=rdoc)
+changed: [xenial64] => (item=ri)
+changed: [xenial64] => (item=ruby)
+changed: [xenial64] => (item=testrb)
+
+TASK [rvm_io.rvm1-ruby : Detect if ruby version can be deleted] ****************
+skipping: [xenial64]
+
+TASK [rvm_io.rvm1-ruby : Delete ruby version] **********************************
+skipping: [xenial64]
+
 PLAY RECAP *********************************************************************
-jessie64                   : ok=9    changed=5    unreachable=0    failed=0
+jessie64                   : ok=9    changed=5    unreachable=0    failed=0   
+xenial64                   : ok=17   changed=8    unreachable=0    failed=0
 ```
 
 ## Install virtualbox and vagrant
@@ -160,10 +262,24 @@ Start the virtual box:
 ```
 $ vagrant up
 Bringing machine 'jessie64' up with 'virtualbox' provider...
-Bringing machine 'puppet' up with 'virtualbox' provider...
+Bringing machine 'xenial64' up with 'virtualbox' provider...
 ==> jessie64: Importing base box 'debian/jessie64'...
 ==> jessie64: Matching MAC address for NAT networking...
 ==> jessie64: Checking if box 'debian/jessie64' is up to date...
+==> jessie64: A newer version of the box 'debian/jessie64' is available! You currently
+==> jessie64: have version '8.3.0'. The latest is version '8.4.0'. Run
+==> jessie64: `vagrant box update` to update.
+==> jessie64: Setting the name of the VM: devops-notes_jessie64_1464094323279_66195
+==> jessie64: Clearing any previously set network interfaces...
+==> jessie64: Preparing network interfaces based on configuration...
+    jessie64: Adapter 1: nat
+==> jessie64: Forwarding ports...
+    jessie64: 22 (guest) => 2222 (host) (adapter 1)
+==> jessie64: Booting VM...
+==> jessie64: Waiting for machine to boot. This may take a few minutes...
+    jessie64: SSH address: 127.0.0.1:2222
+    jessie64: SSH username: vagrant
+    jessie64: SSH auth method: private key
 ```
 
 Login with vagrant ssh:
@@ -184,16 +300,19 @@ Login directly with ssh:
 
 ```
 $ vagrant ssh-config >~/.ssh/config
-$ ssh puppet
+$ ssh xenial64
+Welcome to Ubuntu 16.04 LTS (GNU/Linux 4.4.0-22-generic x86_64)
 
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
+ * Documentation:  https://help.ubuntu.com/
 
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-Last login: Mon Feb  8 04:04:04 2016 from 10.0.2.2
-vagrant@localhost:~$
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+0 packages can be updated.
+0 updates are security updates.
+
+
+ubuntu@ubuntu-xenial:~$
 ```
 
 Stop the virtual machines:

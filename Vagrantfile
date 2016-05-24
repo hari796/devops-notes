@@ -3,7 +3,7 @@ Vagrant.configure("2") do |config|
     jessie64.vm.box = "debian/jessie64"
   end
 
-  config.vm.define "puppet" do |puppet|
-    puppet.vm.box = "puppetlabs/debian-8.2-64-puppet"
+  config.vm.define "xenial64" do |xenial64|
+    xenial64.vm.box = "ubuntu/xenial64"
   end
 end

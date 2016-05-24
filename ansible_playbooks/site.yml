@@ -1,3 +1,4 @@
 ---
 # file: site.yml
-- include: virtual.yml
+- include: debian.yml
+- include: ubuntu.yml
