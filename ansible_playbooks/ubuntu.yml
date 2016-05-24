@@ -1,7 +1,7 @@
 # file: ubuntu.yml
 ---
 
-- name: Install Ruby 2.3.1 into Ubuntu Xenial.
+- name: Install Ruby 2.3.0 into Ubuntu Xenial.
   hosts: ubuntu
   gather_facts: no
   pre_tasks:
@@ -11,18 +11,17 @@
     - rvm-prerequisites
     - role: rvm_io.rvm1-ruby
       rvm1_rubies:
-        - '{{ 2.3.1 }}'
-      rvm1_default_ruby_version: '2.3.1'
+        - 'ruby-2.3.0'
+      rvm1_default_ruby_version: '2.3.0'
       rvm1_install_flags: '--auto-dotfiles --user-install'
       rvm1_user: 'ubuntu'
-      rvm1_rvm_version: 'head'
+      rvm1_rvm_version: 'stable'
       tags: ruby
 
-- name: Set the gemset.
+- name: Set the default gemset.
   hosts: ubuntu
   vars:
-    - ruby_version: '2.3.1'
-    - rvm_path: "/usr/local/rvm/gems/ruby-{{ ruby_version }}/bin:/usr/local/rvm/gems/ruby-{{ ruby_version }}@global/bin:/usr/local/rvmrubies/ruby-{{ ruby_version }}/bin:/usr/local/rvm/bin"
+    - ruby_version: '2.3.0'
   become: yes
   roles:
     - ruby-gemset
