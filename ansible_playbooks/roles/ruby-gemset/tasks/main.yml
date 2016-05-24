@@ -10,8 +10,8 @@
     GEM_PATH: "/usr/local/rvm/gems/ruby-{{ ruby_version }}@bwv:/usr/local/rvm/gems/ruby-{{ ruby_version }}@global"
   changed_when: gemset_needs_an_update.stdout.find('=> ruby-{{ ruby_version }}@bwv') == -1
 
-- name: RVM | Use ruby-{{ ruby_version }}@bwv.
-  command: "rvm use ruby-{{ ruby_version }}@bwv --default"
+- name: RVM | Create and use ruby-{{ ruby_version }}@bwv.
+  command: "rvm use ruby-{{ ruby_version }}@bwv --create"
   environment:
     PATH: "{{ rvm_path }}:{{ ansible_env.PATH }}"
     GEM_HOME: "/usr/local/rvm/gems/ruby-{{ ruby_version }}@bwv"
