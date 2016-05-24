@@ -16,3 +16,7 @@
   become_user: ubuntu
   command: bash -lc "rvm use ruby-{{ ruby_version }}@bwv --default"
   when: gemset_needs_an_update.stdout.find('=> ruby-{{ ruby_version }}@bwv') == -1
+
+- name: Install Bundler
+  become_user: ubuntu
+  command: bash -lc "gem install bundler"
