@@ -15,7 +15,7 @@
       rvm1_default_ruby_version: '2.3.1'
       rvm1_install_flags: '--auto-dotfiles --user-install'
       rvm1_user: 'ubuntu'
-      rvm1_rvm_version: 'stable'
+      rvm1_rvm_version: 'head'
       tags: ruby
 
 - name: Set the gemset.
