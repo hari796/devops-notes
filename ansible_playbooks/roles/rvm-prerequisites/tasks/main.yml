@@ -1,0 +1,4 @@
+---
+# file: roles/rvm-prerequisites/tasks/main.yml
+
+- file: path=/usr/local/rvm state=directory owner=ubuntu group=root mode=0755

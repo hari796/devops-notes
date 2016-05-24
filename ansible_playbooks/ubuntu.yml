@@ -1,16 +1,28 @@
 # file: ubuntu.yml
 ---
 
-- name: python2
+- name: Install Ruby 2.3.1 into Ubuntu Xenial.
   hosts: ubuntu
   gather_facts: no
   pre_tasks:
     - raw: sudo apt-get -y install python2.7 python-simplejson
   become: yes
+  roles:
+    - rvm-prerequisites
+    - role: rvm_io.rvm1-ruby
+      rvm1_rubies:
+        - '{{ 2.3.1 }}'
+      rvm1_default_ruby_version: '2.3.1'
+      rvm1_install_flags: '--auto-dotfiles --user-install'
+      rvm1_user: 'ubuntu'
+      rvm1_rvm_version: 'stable'
+      tags: ruby
 
-- name: rvm
-  hosts:
-    - ubuntu
+- name: Set the gemset.
+  hosts: ubuntu
+  vars:
+    - ruby_version: '2.3.1'
+    - rvm_path: "/usr/local/rvm/gems/ruby-{{ ruby_version }}/bin:/usr/local/rvm/gems/ruby-{{ ruby_version }}@global/bin:/usr/local/rvmrubies/ruby-{{ ruby_version }}/bin:/usr/local/rvm/bin"
   become: yes
   roles:
-    - { role: rvm_io.rvm1-ruby, rvm1_rubies: ['ruby-2.3.1'], tags: ruby, rvm1_rvm_version: 'stable' }
+    - ruby-gemset

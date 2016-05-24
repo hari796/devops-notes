@@ -1,0 +1,27 @@
+---
+# file: roles/ruby-gemset/tasks/main.yml
+
+- name: RVM | check if the bwv gemset needs to be set default.
+  command: rvm list gemsets
+  register: gemset_needs_an_update
+  environment:
+    PATH: "{{ rvm_path }}:{{ ansible_env.PATH }}"
+    GEM_HOME: "/usr/local/rvm/gems/ruby-{{ ruby_version }}"
+    GEM_PATH: "/usr/local/rvm/gems/ruby-{{ ruby_version }}@bwv:/usr/local/rvm/gems/ruby-{{ ruby_version }}@global"
+  changed_when: gemset_needs_an_update.stdout.find('=> ruby-{{ ruby_version }}@bwv') == -1
+
+- name: RVM | Use ruby-{{ ruby_version }}@bwv.
+  command: "rvm use ruby-{{ ruby_version }}@bwv --default"
+  environment:
+    PATH: "{{ rvm_path }}:{{ ansible_env.PATH }}"
+    GEM_HOME: "/usr/local/rvm/gems/ruby-{{ ruby_version }}@bwv"
+    GEM_PATH: "/usr/local/rvm/gems/ruby-{{ ruby_version }}@bwv:/usr/local/rvm/gems/ruby-{{ ruby_version }}@global"
+  when: gemset_needs_an_update.stdout.find('=> ruby-{{ ruby_version }}@bwv') == -1
+
+- name: RVM | Use ruby-{{ ruby_version }}@bwv gemset as default.
+  command: "rvm use ruby-{{ ruby_version }}@bwv --default"
+  environment:
+    PATH: "{{ rvm_path }}:{{ ansible_env.PATH }}"
+    GEM_HOME: "/usr/local/rvm/gems/ruby-{{ ruby_version }}@bwv"
+    GEM_PATH: "/usr/local/rvm/gems/ruby-{{ ruby_version }}@bwv:/usr/local/rvm/gems/ruby-{{ ruby_version }}@global"
+  when: gemset_needs_an_update.stdout.find('=> ruby-{{ ruby_version }}@bwv') == -1
