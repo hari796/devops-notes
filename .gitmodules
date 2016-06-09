@@ -1,0 +1,3 @@
+[submodule "ansible_playbooks/roles/rvm1-ansible"]
+	path = ansible_playbooks/roles/rvm1-ansible
+	url = git@github.com:rvm/rvm1-ansible.git
