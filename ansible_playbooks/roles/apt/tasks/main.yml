@@ -5,3 +5,6 @@
 
 - name: upgrade all the packages to the latest
   apt: upgrade=dist
+
+- name: Install unattended upgrades
+  apt: pkg=unattended-upgrades

@@ -1,0 +1,4 @@
+# file: production
+
+[hetzner]
+miinalaiva ansible_user=root
