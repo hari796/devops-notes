@@ -1,0 +1,26 @@
+---
+# file: roles/useraccounts/tasks/main.yml
+
+- name: Create users.
+  user: name='{{ item.name }}' comment='{{ item.comment }}' shell='/bin/bash'
+  with_items:
+    - { name: solarflare, comment: 'Jari Lammi' }
+    - { name: minecraft, comment: 'Minecraft server' }
+
+- name: Create the ssh directory.
+  file: path='/home/{{ item }}/.ssh/' state=directory owner='{{ item }}' group='{{ item }}' mode=0700
+  with_items:
+    - solarflare
+    - minecraft
+
+- name: Copy the root authorized key to the users.
+  command: creates='/home/{{ item }}/.ssh/authorized_keys' cp /root/.ssh/authorized_keys /home/{{ item }}/.ssh/authorized_keys
+  with_items:
+    - solarflare
+    - minecraft
+
+- name: Set correct owner for the authorized key.
+  file: path='/home/{{ item }}/.ssh/authorized_keys' owner='{{ item }}' group='{{ item }}' mode=0644
+  with_items:
+    - solarflare
+    - minecraft
