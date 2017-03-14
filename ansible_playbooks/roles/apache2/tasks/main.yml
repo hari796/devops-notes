@@ -7,3 +7,9 @@
 - name: be sure apache2 is running and enabled
   service: name=apache2 state=running enabled=yes
   tags: apache2
+
+- name: Copy web files in place.
+  copy: src='files/{{ item }}' dest='/var/www/html/{{ item }}'
+  with_items:
+    - miinatlaiva.png
+    - index.html
