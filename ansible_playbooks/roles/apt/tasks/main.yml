@@ -7,4 +7,13 @@
   apt: upgrade=dist
 
 - name: Install unattended upgrades
-  apt: pkg=unattended-upgrades
+  apt: pkg={{ item }}
+  with_items:
+    - unattended-upgrades
+    - update-notifier-common
+
+- name: Configure unattended upgrades
+  file: src="files/{{ item }}" dest="/etc/apt/apt.conf.d/{{ item }}" owner=root group=root mode=0644
+  with_items:
+    - 20auto-upgrades
+    - 50unattended-upgrades
