@@ -27,7 +27,7 @@
 	# after it has been globally disabled with "a2disconf".
 	#Include conf-available/serve-cgi-bin.conf
 RewriteEngine on
-RewriteCond %{SERVER_NAME} =miinalaiva.eu
+RewriteCond %{SERVER_NAME} ={{ vpn_server }}
 RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,QSA,R=permanent]
 </VirtualHost>
 

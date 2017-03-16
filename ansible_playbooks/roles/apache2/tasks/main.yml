@@ -34,7 +34,7 @@
     - ssl
 
 - name: Install apache available sites configurations.
-  copy: src='files/{{ item }}' dest='/etc/apache2/sites-available/{{ item }}' owner=root group=root mode=0644
+  template: src='templates/{{ item }}.j2' dest='/etc/apache2/sites-available/{{ item }}' owner=root group=root mode=0644
   with_items:
     - 000-default-le-ssl.conf
     - 000-default.conf

@@ -35,7 +35,7 @@
     mode: 0600
 
 - name: Create and sign the VPN server certificate with the CA
-  shell: ipsec pki --pub --in vpn-server-key.pem --type rsa | ipsec pki --issue --lifetime 1825 --cacert server-root-ca.pem --cakey server-root-key.pem --dn "C=FI, O=Miinalaiva VPN Server, CN=miinalaiva.eu" --san miinalaiva.eu --flag serverAuth --flag ikeIntermediate --outform pem > vpn-server-cert.pem
+  shell: ipsec pki --pub --in vpn-server-key.pem --type rsa | ipsec pki --issue --lifetime 1825 --cacert server-root-ca.pem --cakey server-root-key.pem --dn "C=FI, O=Miinalaiva VPN Server, CN={{ vpn_server }}" --san {{ vpn_server }} --flag serverAuth --flag ikeIntermediate --outform pem > vpn-server-cert.pem
   args:
     chdir: /root/vpn-certs
     creates: /root/vpn-certs/vpn-server-cert.pem
@@ -50,7 +50,7 @@
     - { file: vpn-server-key.pem, dir: private }
 
 - name: Copy ipsec settings to the server.
-  copy: src=files/ipsec.conf dest=/etc/ipsec.conf
+  template: src=templates/ipsec.conf.j2 dest=/etc/ipsec.conf mode=0644
 
 - name: Copy ipsec secrets template to the server.
   template: src=templates/ipsec.secrets.j2 dest=/etc/ipsec.secrets mode=0600
