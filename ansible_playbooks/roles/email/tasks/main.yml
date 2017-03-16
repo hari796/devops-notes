@@ -1,0 +1,14 @@
+---
+# file: roles/email/tasks/main.yml
+
+- name: Install Exim4.
+  apt: name=exim4 state=latest
+
+- name: Install Exim4 configuration.
+  template: src='templates/{{ item.file }}.j2' dest='{{ item.dir }}/{{ item.file }}' owner=root group=root mode=0644
+  with_items:
+    - { file: update-exim4.conf.conf, dir: /etc/exim4 }
+    - { file: mailname, dir: /etc }
+  notify:
+    - update-exim4.conf
+    - restart exim4
