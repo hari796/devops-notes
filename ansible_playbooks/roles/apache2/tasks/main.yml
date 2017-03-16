@@ -1,10 +1,13 @@
 ---
 # file: roles/apache2/tasks/main.yml
 
-- name: install apache2
-  apt: name=apache2 state=latest
+- name: Install apache2 and letsencrypt.
+  apt: name='{{ item }}' state=latest
+  with_items:
+    - apache2
+    - python-letsencrypt-apache
 
-- name: be sure apache2 is running and enabled
+- name: Make sure apache2 is running and enabled.
   service: name=apache2 state=running enabled=yes
   tags: apache2
 
@@ -13,3 +16,35 @@
   with_items:
     - miinatlaiva.png
     - index.html
+
+- name: Copy letsencrypt secrets tarball in place.
+  copy: src=letsencrypt.tar.gz dest=/root/letsencrypt.tar.gz owner=root group=root mode=0400
+
+- name: Extract the letsencrypt secrets.
+  command: tar xvf /root/letsencrypt.tar.gz
+  args:
+    chdir: '/etc/'
+    creates: '/etc/letsencrypt/options-ssl-apache.conf'
+
+- name: Enable apache modules.
+  apache2_module: state=present name='{{ item }}'
+  with_items:
+    - rewrite
+    - socache_shmcb
+    - ssl
+
+- name: Install apache available sites configurations.
+  copy: src='files/{{ item }}' dest='/etc/apache2/sites-available/{{ item }}' owner=root group=root mode=0644
+  with_items:
+    - 000-default-le-ssl.conf
+    - 000-default.conf
+
+- name: Enable apache sites
+  command: a2ensite {{ item }}
+  args:
+    creates: '/etc/apache2/sites-enabled/{{ item }}.conf'
+  with_items:
+    - 000-default-le-ssl
+    - 000-default
+  notify:
+  - restart apache2
