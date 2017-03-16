@@ -3,3 +3,4 @@ minecraft.retry
 ubuntu-xenial-16.04-cloudimg-console.log
 .vagrant/
 letsencrypt.tar.gz
+secrets/

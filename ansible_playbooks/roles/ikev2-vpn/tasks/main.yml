@@ -1,0 +1,71 @@
+---
+# roles/ikev2-vpn/tasks/main.yml
+
+- name: Install the VPN server software.
+  apt: name='{{ item }}' state=present
+  with_items:
+    - strongswan
+    - strongswan-plugin-eap-mschapv2
+    - moreutils
+    - iptables-persistent
+
+- name: Create the certificate directory
+  file: path=/root/vpn-certs state=directory mode=0700
+
+- name: Create the VPN server root key
+  shell: ipsec pki --gen --type rsa --size 4096 --outform pem > server-root-key.pem
+  args:
+    chdir: /root/vpn-certs
+    creates: /root/vpn-certs/server-root-key.pem
+
+- name: Protect the root key
+  file:
+    path: /root/vpn-certs/server-root-key.pem
+    mode: 0600
+
+- name: Create the VPN server private key
+  shell: ipsec pki --gen --type rsa --size 4096 --outform pem > vpn-server-key.pem
+  args:
+    chdir: /root/vpn-certs
+    creates: /root/vpn-certs/vpn-server-key.pem
+
+- name: Protect the server private key
+  file:
+    path: /root/vpn-certs/vpn-server-key.pem
+    mode: 0600
+
+- name: Create and sign the VPN server certificate with the CA
+  shell: ipsec pki --pub --in vpn-server-key.pem --type rsa | ipsec pki --issue --lifetime 1825 --cacert server-root-ca.pem --cakey server-root-key.pem --dn "C=FI, O=Miinalaiva VPN Server, CN=miinalaiva.eu" --san miinalaiva.eu --flag serverAuth --flag ikeIntermediate --outform pem > vpn-server-cert.pem
+  args:
+    chdir: /root/vpn-certs
+    creates: /root/vpn-certs/vpn-server-cert.pem
+
+- name: Copy the keys into their right places
+  shell: 'cp ./{{ item.file }} /etc/ipsec.d/{{ item.dir }}/{{ item.file }}'
+  args:
+    chdir: /root/vpn-certs
+    creates: '/etc/ipsec.d/{{ item.dir }}/{{ item.file }}'
+  with_items:
+    - { file: vpn-server-cert.pem, dir: certs }
+    - { file: vpn-server-key.pem, dir: private }
+
+- name: Copy ipsec settings to the server.
+  copy: src=files/ipsec.conf dest=/etc/ipsec.conf
+
+- name: Copy ipsec secrets template to the server.
+  template: src=templates/ipsec.secrets.j2 dest=/etc/ipsec.secrets mode=0600
+
+- name: Restore a previous netfilter-persistent save to the server.
+  template: src='templates/rules.{{ item }}.j2' dest='/etc/iptables/rules.{{ item }}' owner=root group=root mode=0640
+  with_items:
+    - v4
+    - v6
+
+- name: Restore sysctl.conf to the server.
+  copy: src=files/sysctl.conf dest=/etc/sysctl.conf owner=root group=root mode=0644
+
+- name: Fetch the VPN server cert for the local client.
+  fetch:
+    src: /root/vpn-certs/server-root-ca.pem
+    dest: secrets/server-root-ca-{{ inventory_hostname }}.pem
+    flat: yes

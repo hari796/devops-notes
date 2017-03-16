@@ -1,0 +1,5 @@
+---
+# roles/ikev2-vpn/handlers/main.yml
+
+- name: reload ipsec
+  command: ipsec reload
