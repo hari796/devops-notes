@@ -9,5 +9,6 @@
   roles:
     - apt
     - hostname
+    - finnish
     - useraccounts
     - apache2

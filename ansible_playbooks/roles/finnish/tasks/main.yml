@@ -1,0 +1,22 @@
+---
+# file: roles/finnish/tasks/main.yml
+- name: Install finnish locales.
+  locale_gen: name=fi_FI.UTF-8 state=present
+
+- name: Set the locale.
+  command:  /usr/sbin/update-locale LANG='fi_FI.UTF-8' LC_TIME='fi_FI.UTF-8'
+  args:
+    creates: /usr/share/i18n/locales/fi_FI
+
+- name: Install support for finnish.
+  apt: name=language-pack-fi state=latest
+
+- name: Use the finnish locale system wide.
+  lineinfile: name=/etc/environment regexp='{{ item }}' line='{{ item }}'
+  with_items:
+    - 'LC_ALL=fi_FI.UTF-8'
+    - 'LANG=fi_FI.UTF-8'
+
+- name: Set timezone to Europe/Helsinki.
+  timezone:
+    name: Europe/Helsinki
