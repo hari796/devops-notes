@@ -9,6 +9,8 @@
   with_items:
     - { file: update-exim4.conf.conf, dir: /etc/exim4 }
     - { file: mailname, dir: /etc }
+    - { file: frozen-emails, dir: /etc/cron.d }
   notify:
     - update-exim4.conf
     - restart exim4
+    - update frozen-emails crontab

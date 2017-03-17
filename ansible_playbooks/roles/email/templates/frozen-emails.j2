@@ -1,0 +1,2 @@
+# Removes frozen messages from the mail queue every night
+0 2 * * * root exim -bp | grep frozen | awk '{print $3}' | xargs exim -Mrm

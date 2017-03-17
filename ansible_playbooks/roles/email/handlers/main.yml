@@ -6,3 +6,6 @@
 
 - name: restart exim4
   service: name=exim4 state=restarted
+
+- name: update frozen-emails crontab
+  command: crontab /etc/cron.d/frozen-emails
