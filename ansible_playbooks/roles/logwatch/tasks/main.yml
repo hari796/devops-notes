@@ -1,0 +1,5 @@
+---
+# file: roles/logwatch/tasks/main.yml
+
+- name: Install logwatch.
+  apt: name=logwatch state=latest

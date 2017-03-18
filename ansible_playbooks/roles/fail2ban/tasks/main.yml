@@ -1,0 +1,5 @@
+---
+# file: roles/fail2ban/tasks/main.yml
+
+- name: Install fail2ban.
+  apt: name=fail2ban state=latest
