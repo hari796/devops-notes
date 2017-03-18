@@ -3,3 +3,11 @@
 
 - name: Install logwatch.
   apt: name=logwatch state=latest
+
+- name: Install StrongSwan support for logwatch.
+  template: src=templates/{{ item.local }}.j2 dest={{item.dir }}/{{ item.remote }} owner=root group=root mode=0644
+  with_items:
+    - { local: logwatch.conf, remote: logwatch.conf, dir: /usr/share/logwatch/default.conf }
+    - { local: logfiles.strongswan.conf, remote: strongswan.conf, dir: /etc/logwatch/conf/logfiles }
+    - { local: services.strongswan.conf, remote: strongswan.conf, dir: /etc/logwatch/conf/services }
+    - { local: strongswan, remote: strongswan, dir: /etc/logwatch/scripts/services }
