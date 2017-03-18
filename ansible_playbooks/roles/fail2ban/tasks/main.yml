@@ -3,3 +3,9 @@
 
 - name: Install fail2ban.
   apt: name=fail2ban state=latest
+
+- name: Configure fail2ban.
+  template: src=templates/{{ item.file }}.j2 dest={{ item.dir }}/{{ item.file }}
+  with_items:
+    - { file: fail2ban.conf, dir: /etc/fail2ban }
+    - { file: iptables.conf, dir: /etc/fail2ban/action.d }
