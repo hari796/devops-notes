@@ -16,3 +16,4 @@
     - ikev2-vpn
     - logwatch
     - fail2ban
+    - ssh
