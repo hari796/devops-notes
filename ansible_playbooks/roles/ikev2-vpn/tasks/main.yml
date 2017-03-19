@@ -9,6 +9,21 @@
     - moreutils
     - iptables-persistent
 
+- name: Check if we already have the backup keys for the host.
+  local_action: stat path=secrets/vpn-certs-{{ inventory_hostname }}.tar.gz
+  register: backup
+
+- name: Restore the backup keys archive to the server.
+  copy: src=secrets/vpn-certs-{{ inventory_hostname }}.tar.gz dest=/root/vpn-certs-{{ inventory_hostname }}.tar.gz mode=0600
+  when: backup.stat.exists
+
+- name: Unarchive the restored backup keys file.
+  unarchive:
+    src: /root/vpn-certs-{{ inventory_hostname }}.tar.gz
+    dest: /root
+    creates: /root/vpn-certs/server-root-key.pem
+    remote_src: True
+
 - name: Create the certificate directory
   file: path=/root/vpn-certs state=directory mode=0700
 
@@ -32,6 +47,17 @@
 - name: Protect the server private key
   file:
     path: /root/vpn-certs/vpn-server-key.pem
+    mode: 0600
+
+- name: Create the root certificate authority
+  shell: ipsec pki --self --ca --lifetime 3650 --in server-root-key.pem --type rsa --dn "C=FI, O=Miinalaiva VPN Server, CN=Miinalaiva VPN Server Root CA" --outform pem > server-root-ca.pem
+  args:
+    chdir: /root/vpn-certs
+    creates: /root/vpn-certs/server-root-ca.pem
+
+- name: Protect the root certificate authority
+  file:
+    path: /root/vpn-certs/server-root-ca.pem
     mode: 0600
 
 - name: Create and sign the VPN server certificate with the CA
