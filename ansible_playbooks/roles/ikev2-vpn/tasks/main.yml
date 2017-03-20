@@ -87,6 +87,15 @@
     - v4
     - v6
 
+- name: Check if iptables need to be restored.
+  shell: 'iptables -L | wc -l'
+  register: eightball
+  changed_when: eightball.stdout.find('8') != -1
+
+- name: Restore iptables from the save.
+  shell: 'iptables-restore /etc/iptables/rules.v4'
+  when: eightball.stdout.find('8') != -1
+
 - name: Restore sysctl.conf to the server.
   copy: src=files/sysctl.conf dest=/etc/sysctl.conf owner=root group=root mode=0644
 
