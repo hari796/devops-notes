@@ -18,3 +18,9 @@
 
 - name: Chown the backup.
   file: dest=/home/minecraft owner=minecraft group=minecraft recurse=yes
+
+- name: Install screen.
+  apt: name=screen state=present
+
+- name: Start the gameserver at reboot.
+  template: src=templates/minecraft.j2 dest=/var/spool/cron/crontabs/minecraft owner=minecraft group=crontab mode=0600
