@@ -1,0 +1,19 @@
+---
+# file: vpn.yml
+- hosts: bach
+  gather_facts: no
+  pre_tasks:
+    - name: 'install python2'
+      raw: sudo apt-get -y install python-simplejson
+      changed_when: False
+  roles:
+    - apt
+    - hostname
+    - finnish
+    - useraccounts
+    - apache2
+    - email
+    - ikev2-vpn
+    - logwatch
+    - ssh
+    - fail2ban

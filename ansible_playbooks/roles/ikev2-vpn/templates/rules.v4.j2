@@ -4,8 +4,10 @@
 :FORWARD ACCEPT [0:0]
 :OUTPUT ACCEPT [4357:747250]
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
--A INPUT -p tcp -m tcp --dport {{ sshd_port }} -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
+{% if sshd_port != '22' %}
+-A INPUT -p tcp -m tcp --dport {{ sshd_port }} -j ACCEPT
+{% endif %}
 -A INPUT -p tcp -m tcp --dport 25 -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT

@@ -2,3 +2,4 @@
 
 [hetzner]
 miinalaiva ansible_port="{{ sshd_port }}" ansible_user=root
+bach ansible_user=root

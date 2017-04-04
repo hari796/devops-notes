@@ -1,11 +1,19 @@
 ---
 # file: roles/apache2/tasks/main.yml
 
-- name: Install apache2 and letsencrypt.
+- name: Install apache2 and letsencrypt for Ubuntu 16.04.
   apt: name='{{ item }}' state=latest
   with_items:
     - apache2
     - python-letsencrypt-apache
+  when: '{{ ansible_distribution_release }}' == 'xenial'
+
+- name: Install apache2 and letsencrypt for Ubuntu 16.10.
+  apt: name='{{ item }}' state=latest
+  with_items:
+    - apache2
+    - python-certbot-apache
+  when: '{{ ansible_distribution_release }}' == 'yakkety'
 
 - name: Make sure apache2 is running and enabled.
   service: name=apache2 state=running enabled=yes
