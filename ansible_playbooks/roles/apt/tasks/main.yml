@@ -17,3 +17,13 @@
   with_items:
     - 20auto-upgrades
     - 50unattended-upgrades
+
+- name: Install repository adding requirements.
+  apt: pkg={{ item }}
+  with_items:
+    - python-apt
+    - python3-apt
+
+- name: Add the ppa:webupd8team/java repository.
+  apt_repository:
+    repo: 'ppa:webupd8team/java'
