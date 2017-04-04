@@ -1,0 +1,11 @@
+---
+# file: roles/minecraft/tasks/main.yml
+
+- name: Unarchive the game backup.
+  unarchive:
+    src: files/minecraft.tar.gz
+    dest: /home
+    creates: /home/minecraft/world/data/Mineshaft.dat
+
+- name: Chown the backup.
+  file: dest=/home/minecraft owner=minecraft group=minecraft recurse=yes
