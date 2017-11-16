@@ -8,9 +8,6 @@
   args:
     creates: /usr/share/i18n/locales/fi_FI
 
-- name: Install support for finnish.
-  apt: name=language-pack-fi state=latest
-
 - name: Use the finnish locale system wide.
   lineinfile: name=/etc/environment regexp='{{ item }}' line='{{ item }}'
   with_items:

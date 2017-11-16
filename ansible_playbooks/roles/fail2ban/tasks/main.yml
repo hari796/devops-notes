@@ -9,3 +9,6 @@
   with_items:
     - { file: fail2ban.conf, dir: /etc/fail2ban }
     - { file: iptables.conf, dir: /etc/fail2ban/action.d }
+    - { file: iptables-multiport.conf, dir: /etc/fail2ban/action.d }
+    - { file: jail.local, dir: /etc/fail2ban }
+    - { file: persistent.bans, dir: /etc/fail2ban }

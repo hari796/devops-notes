@@ -10,7 +10,7 @@
   apt: pkg={{ item }}
   with_items:
     - unattended-upgrades
-    - update-notifier-common
+    - update-notifier
 
 - name: Configure unattended upgrades
   file: src="files/{{ item }}" dest="/etc/apt/apt.conf.d/{{ item }}" owner=root group=root mode=0644
@@ -23,7 +23,3 @@
   with_items:
     - python-apt
     - python3-apt
-
-- name: Add the ppa:webupd8team/java repository.
-  apt_repository:
-    repo: 'ppa:webupd8team/java'

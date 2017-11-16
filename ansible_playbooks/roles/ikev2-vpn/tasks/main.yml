@@ -5,7 +5,7 @@
   apt: name='{{ item }}' state=present
   with_items:
     - strongswan
-    - strongswan-plugin-eap-mschapv2
+    - libstrongswan-standard-plugins
     - moreutils
     - iptables-persistent
 
