@@ -6,6 +6,7 @@
   with_items:
     - strongswan
     - libstrongswan-standard-plugins
+    - libcharon-extra-plugins
     - moreutils
     - iptables-persistent
 
